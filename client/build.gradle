@@ -1,0 +1,26 @@
+group 'org.cosmicencounter'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':core')
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Cosmic Encounter Client',
+                'Implementation-Version': version,
+                'Main-Class': 'org.cosmicencounter.client.Application'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
