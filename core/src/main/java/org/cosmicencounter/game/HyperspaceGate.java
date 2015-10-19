@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Every encounter happens on the Warp Gate. The encounter is between an offensive player and a defensive player.
+ * Every encounter happens on the Hyperspace Gate. The encounter is between an offensive player and a defensive player.
  * The offensive player must select a planet from the defenders home world that the offensive player currently has
- * no ships on. An attacker must send at minimum 1 ship to the Warp Gate and the defensive player must defend with
+ * no ships on. An attacker must send at minimum 1 ship to the Hyperspace Gate and the defensive player must defend with
  * the ships that are already on the planet. Both sides may ask for allies.
  */
-public class WarpGate extends ShipLocation {
-    public static final String NAME = "Warp Gate";
+public class HyperspaceGate extends ShipLocation {
+    public static final String NAME = "Hyperspace Gate";
     public static final int MAX_SHIPS = 4;
 
     private Player _attacker;
@@ -22,11 +22,11 @@ public class WarpGate extends ShipLocation {
     private List<Player> _defensiveAllies;
 
     /**
-     * Create a Warp Gate where the battle will take place
+     * Create a Hyperspace Gate where the battle will take place
      * @param attacker The attacking player
      * @param defender The defending player
      */
-    public WarpGate(Player attacker, Player defender) {
+    public HyperspaceGate(Player attacker, Player defender) {
         super(NAME);
         _attacker = attacker;
         _defender = defender;
@@ -35,7 +35,7 @@ public class WarpGate extends ShipLocation {
     }
 
     /**
-     * The attacking player is always allowed to send ships to the warp gate but so are any allies
+     * The attacking player is always allowed to send ships to the Hyperspace Gate but so are any allies
      * @param player The player
      * @return True if the player is the attacking player or an ally of either side
      */
@@ -54,7 +54,7 @@ public class WarpGate extends ShipLocation {
     @Override
     public void addShips(Player player, int ships) throws InvalidMoveException {
         if (!canSendShips(player)) {
-            throw new InvalidMoveException(player + " cannot send ships to the warp gate.");
+            throw new InvalidMoveException(player + " cannot send ships to the Hyperspace Gate.");
         }
         if (numberOfShips(player) + ships > MAX_SHIPS) {
             throw new InvalidMoveException(toString() + " cannot have more than 4 ships.");
@@ -77,7 +77,7 @@ public class WarpGate extends ShipLocation {
 
     /**
      * Set which planet the attacker is attacking. Whatever ships the defender has on that planet will automatically
-     * be moved to the warp gate
+     * be moved to the Hyperspace Gate
      * @param planet The planet that is selected to be attacked
      * @throws InvalidMoveException If the target has already been set or if the selected planet is not a valid planet
      * to attack
