@@ -1,13 +1,11 @@
 package org.cosmicencounter.game;
 import org.cosmicencounter.exceptions.InvalidMoveException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.cosmicencounter.exceptions.SetupError;
 
 import java.util.*;
 
 public class Planet extends ShipLocation {
     public static final int MAX_SHIPS = 4;
-    public static final Logger LOG = LoggerFactory.getLogger(Planet.class);
 
     private Player _player;
 
@@ -17,26 +15,24 @@ public class Planet extends ShipLocation {
      * @param name The name of this planet
      */
     public Planet(Player player, String name) {
-        super(name);
-        _player = player;
-        try {
-            addShips(player, MAX_SHIPS);
-        } catch (InvalidMoveException e) {
-            LOG.error("Critical error: Adding max ships should never result in an invalid move exception!");
-        }
+        this(player, name, MAX_SHIPS);
     }
 
     /**
      * Create a Planet with the specified number of ships
      * @param player The player who owns the planet
-     * @param ships The number of ships for the planet
      * @param name The name of this planet
-     * @throws InvalidMoveException If the ships are greater than the MAX_SHIPS
+     * @param ships The number of ships for the planet
+     * @throws SetupError If the ships are greater than the MAX_SHIPS
      */
-    public Planet(Player player, int ships, String name) throws InvalidMoveException {
+    public Planet(Player player, String name, int ships) throws SetupError {
         super(name);
         _player = player;
-        addShips(player, ships);
+        try {
+            addShips(player, ships);
+        } catch (InvalidMoveException e) {
+            throw new SetupError("Planet cannot be made with more ships than the 4 on the planet", e);
+        }
     }
 
     /**

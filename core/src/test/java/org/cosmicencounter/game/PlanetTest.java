@@ -1,6 +1,7 @@
 package org.cosmicencounter.game;
 
 import org.cosmicencounter.exceptions.InvalidMoveException;
+import org.cosmicencounter.exceptions.SetupError;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,6 +11,11 @@ import java.util.Collections;
 public class PlanetTest {
     private Player _planetOwner = new Player("Player 1", GameColor.BLACK);
     private Player _enemyPlayer = new Player("Player 2", GameColor.BLUE);
+
+    @Test(expected = SetupError.class)
+    public void testCreatePlanetTooManyShips() {
+        new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", Planet.MAX_SHIPS + 1);
+    }
 
     @Test
     public void testHasShips() {
@@ -51,7 +57,7 @@ public class PlanetTest {
     public void testTotalNumberOfShips() throws InvalidMoveException {
         int startShips = 1;
         int addedShips = 1;
-        Planet planet = new Planet(_planetOwner, startShips, _planetOwner.getPlayerColor() + "1");
+        Planet planet = new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", startShips);
 
         Assert.assertEquals(startShips, planet.totalNumberOfShips());
         planet.addShips(_enemyPlayer, addedShips);
@@ -70,7 +76,7 @@ public class PlanetTest {
     public void testRemoveShipsNotOnPlanetSpecifiedAmount() throws InvalidMoveException {
         int startShips = 1;
         int removeShips = 2;
-        Planet planet = new Planet(_planetOwner, startShips, _planetOwner.getPlayerColor() + "1");
+        Planet planet = new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", startShips);
         planet.removeShips(_enemyPlayer, removeShips);
     }
 
@@ -79,7 +85,7 @@ public class PlanetTest {
     public void testRemoveShipsTooManyShips() throws InvalidMoveException {
         int startShips = 1;
         int removeShips = 2;
-        Planet planet = new Planet(_planetOwner, startShips, _planetOwner.getPlayerColor() + "1");
+        Planet planet = new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", startShips);
         planet.removeShips(_planetOwner, removeShips);
     }
 
@@ -87,7 +93,7 @@ public class PlanetTest {
     public void testRemoveShipsSpecifiedAmount() throws InvalidMoveException {
         int startShips = 2;
         int removeShips = 1;
-        Planet planet = new Planet(_planetOwner, startShips, _planetOwner.getPlayerColor() + "1");
+        Planet planet = new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", startShips);
         planet.removeShips(_planetOwner, removeShips);
 
         Assert.assertEquals(startShips - removeShips, planet.numberOfShips(_planetOwner));
@@ -103,7 +109,7 @@ public class PlanetTest {
     public void testAddShips() throws InvalidMoveException {
         int startShips = 1;
         int addedShips = 1;
-        Planet planet = new Planet(_planetOwner, startShips, _planetOwner.getPlayerColor() + "1");
+        Planet planet = new Planet(_planetOwner, _planetOwner.getPlayerColor() + "1", startShips);
         planet.addShips(_planetOwner, addedShips);
 
         Assert.assertEquals(startShips + addedShips, planet.numberOfShips(_planetOwner));
