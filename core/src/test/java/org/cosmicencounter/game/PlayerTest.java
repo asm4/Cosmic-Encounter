@@ -1,5 +1,7 @@
 package org.cosmicencounter.game;
 
+import org.cosmicencounter.cards.Hand;
+import org.cosmicencounter.cards.NegotiateCard;
 import org.cosmicencounter.exceptions.InvalidMoveException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -71,5 +73,22 @@ public class PlayerTest {
         Player player1 = new Player("Player 1", GameColor.BLACK);
         Assert.assertNotNull(player1.getHomePlanets());
         Assert.assertEquals(Player.DEFAULT_NUMBER_OF_PLANETS, player1.getHomePlanets().size());
+    }
+
+    @Test
+    public void testGetHand() {
+        Player player1 = new Player("Player 1", GameColor.BLACK);
+        Assert.assertNotNull(player1.getHand());
+    }
+
+    @Test
+    public void testSetHand() {
+        Player player1 = new Player("Player 1", GameColor.BLACK);
+        Hand newHand = new Hand();
+        newHand.addCard(new NegotiateCard());
+
+        Assert.assertNotEquals(newHand, player1.getHand());
+        player1.setHand(newHand);
+        Assert.assertEquals(newHand, player1.getHand());
     }
 }
