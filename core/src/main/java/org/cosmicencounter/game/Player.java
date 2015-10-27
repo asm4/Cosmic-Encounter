@@ -1,5 +1,7 @@
 package org.cosmicencounter.game;
 
+import org.cosmicencounter.cards.Hand;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +13,8 @@ public class Player {
     private GameColor _color;
     private List<Planet> _planets;
     private List<Planet> _colonies;
+    private PlayerStatus _currentStatus;
+    private Hand _hand;
 
     /**
      * Create a new player with the default 5 planets
@@ -35,6 +39,8 @@ public class Player {
         for(int i = 0; i < numPlanets; i++) {
             _planets.add(new Planet(this, color.toString() + (i + 1)));
         }
+        _currentStatus = PlayerStatus.NONE;
+        _hand = new Hand();
     }
 
     /**
@@ -108,6 +114,36 @@ public class Player {
                 colonyIterator.remove();
             }
         }
+    }
+
+    /**
+     * @return How involved this player is with the current encounter
+     */
+    public PlayerStatus getPlayerStatus() {
+        return _currentStatus;
+    }
+
+    /**
+     * Set the current category for the player
+     * @param status The current status for the player
+     */
+    public void setPlayerStatus(PlayerStatus status) {
+        _currentStatus = status;
+    }
+
+    /**
+     * @return This player's hand
+     */
+    public Hand getHand() {
+        return _hand;
+    }
+
+    /**
+     * Set this player's hand
+     * @param hand The new hand
+     */
+    public void setHand(Hand hand) {
+        _hand = hand;
     }
 
     @Override
